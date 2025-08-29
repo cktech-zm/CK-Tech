@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CK Tech - Enhanced Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --deep-blue: #0a2463;
+            --electric-purple: #7d53de;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --dark-gray: #333333;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--deep-blue);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 4px;
+            background: var(--electric-purple);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Portfolio Section */
+        .portfolio-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background: transparent;
+            border: none;
+            color: var(--deep-blue);
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--electric-purple);
+            color: var(--white);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 36, 99, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: var(--transition);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-item:hover .portfolio-img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay h3 {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .portfolio-overlay p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials Section */
+        .testimonials-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-slide {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            display: none;
+        }
+
+        .testimonial-slide.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .testimonial-content {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .testimonial-content::before,
+        .testimonial-content::after {
+            content: '"';
+            font-size: 3rem;
+            color: var(--electric-purple);
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .testimonial-content::before {
+            top: -20px;
+            left: -10px;
+        }
+
+        .testimonial-content::after {
+            bottom: -40px;
+            right: -10px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            color: var(--deep-blue);
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            background: #ddd;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .testimonial-dot.active {
+            background: var(--electric-purple);
+            transform: scale(1.2);
+        }
+
+        /* Service Calculator */
+        .calculator-section {
+            background: var(--light-gray);
+        }
+
+        .calculator {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--deep-blue);
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--electric-purple);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(125, 83, 222, 0.2);
+        }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230a2463' viewBox='0 0 16 16'%3E%3Cpath d='M8 12L2 6h12L8 12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 40px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .slider-container {
+            margin-top: 15px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--electric-purple);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--electric-purple);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .estimate-result {
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--electric-purple) 100%);
+            color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .estimate-result h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .estimate-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--electric-purple);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(125, 83, 222, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--deep-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(125, 83, 222, 0.4);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(125, 83, 222, 0.15);
+        }
+
+        .member-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .member-info {
+            padding: 25px;
+        }
+
+        .member-info h3 {
+            font-size: 1.5rem;
+            color: var(--deep-blue);
+            margin-bottom: 10px;
+        }
+
+        .member-role {
+            color: var(--electric-purple);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .member-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .member-social a {
+            width: 40px;
+            height: 40px;
+            background: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-blue);
+            transition: var(--transition);
+        }
+
+        .member-social a:hover {
+            background: var(--electric-purple);
+            color: var(--white);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-slide {
+                padding: 30px 20px;
+            }
+            
+            .calculator {
+                padding: 30px 20px;
+            }
+            
+            .estimate-amount {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Portfolio Section -->
+    <section id="portfolio">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Portfolio</h2>
+                <p>Explore some of our recent projects and see how we've helped businesses like yours succeed.</p>
+            </div>
+            <div class="portfolio-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+                <button class="filter-btn" data-filter="app">Mobile App</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-category="web">
+                    <img src="https://via.placeholder.com/400x300" alt="E-commerce Website" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3>E-commerce Website</h3>
+                        <p>Complete online store with payment integration and inventory management.</p>
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="app">
+                    <img src="https://via.placeholder.com/400x300" alt="Fitness App" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3>Fitness Mobile App</h3>
+                        <p>Android application for personal trainers and their clients.</p>
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="design">
+                    <img src="https://via.placeholder.com/400x300" alt="Brand Identity" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3>Brand Identity</h3>
+                        <p>Complete branding package for a local startup.</p>
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Client Testimonials</h2>
+                <p>Hear what our clients say about working with CK Tech and the results we've achieved together.</p>
+            </div>
+            <div class="testimonials-container">
+                <div class="testimonial-slide active">
+                    <div class="testimonial-content">
+                        Working with CK Tech transformed our online presence. Their web development team created an e-commerce site that increased our sales by 150% within three months.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://via.placeholder.com/60" alt="Sarah Mwila">
+                        </div>
+                        <div class="author-info">
+                            <h4>Sarah Mwila</h4>
+                            <p>CEO, Fashion Haven</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        The mobile app CK Tech developed for our school has revolutionized how we communicate with parents. It's user-friendly, reliable, and has received excellent feedback.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://via.placeholder.com/60" alt="Dr. James Banda">
+                        </div>
+                        <div class="author-info">
+                            <h4>Dr. James Banda</h4>
+                            <p>Principal, Sunshine Academy</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        CK Tech's software consulting helped us identify the right tools to streamline our operations. Their expertise saved us time and money while delivering better results than we expected.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://via.placeholder.com/60" alt="Lisa Chibwe">
+                        </div>
+                        <div class="author-info">
+                            <h4>Lisa Chibwe</h4>
+                            <p>Operations Manager, AgriPlus</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-nav">
+                    <div class="testimonial-dot active" data-slide="0"></div>
+                    <div class="testimonial-dot" data-slide="1"></div>
+                    <div class="testimonial-dot" data-slide="2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Calculator Section -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Project Estimate Calculator</h2>
+                <p>Get an instant estimate for your project based on your requirements</p>
+            </div>
+            <div class="calculator">
+                <div class="form-group">
+                    <label for="service-type">Service Type</label>
+                    <select id="service-type" class="form-control">
+                        <option value="web">Website Development</option>
+                        <option value="app">Mobile App Development</option>
+                        <option value="design">UI/UX Design</option>
+                        <option value="consulting">Software Consulting</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="complexity">Project Complexity</label>
+                    <input type="range" min="1" max="3" value="2" class="slider" id="complexity">
+                    <div class="slider-labels">
+                        <span>Simple</span>
+                        <span>Medium</span>
+                        <span>Complex</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pages">Number of Pages/Screens</label>
+                    <input type="number" id="pages" class="form-control" min="1" max="50" value="5">
+                </div>
+                <div class="estimate-result">
+                    <h3>Estimated Project Cost</h3>
+                    <div class="estimate-amount" id="estimate-amount">ZMW 15,000 - 25,000</div>
+                    <p>This is a rough estimate. Contact us for a detailed quotation.</p>
+                    <a href="#contact" class="btn">Get Detailed Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <div class="container">
+            <div class="section-title">
+                <h2>Meet Our Team</h2>
+                <p>Our talented professionals are ready to bring your ideas to life</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/400x400" alt="Team Member" class="member-img">
+                    <div class="member-info">
+                        <h3>John Banda</h3>
+                        <div class="member-role">Lead Developer</div>
+                        <p>Specializes in web development with over 8 years of experience.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/400x400" alt="Team Member" class="member-img">
+                    <div class="member-info">
+                        <h3>Sarah Chisenga</h3>
+                        <div class="member-role">UI/UX Designer</div>
+                        <p>Creates beautiful and functional interfaces that users love.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-behance"></i></a>
+                            <a href="#"><i class="fab fa-dribbble"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/400x400" alt="Team Member" class="member-img">
+                    <div class="member-info">
+                        <h3>Michael Phiri</h3>
+                        <div class="member-role">Mobile Developer</div>
+                        <p>Expert in Android app development with a focus on performance.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-google-play"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Portfolio Filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const filterValue = this.getAttribute('data-filter');
+                
+                portfolioItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Testimonial Slider
+        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+        const testimonialDots = document.querySelectorAll('.testimonial-dot');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            testimonialSlides.forEach(slide => slide.classList.remove('active'));
+            testimonialDots.forEach(dot => dot.classList.remove('active'));
+            
+            testimonialSlides[index].classList.add('active');
+            testimonialDots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        testimonialDots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                const slideIndex = parseInt(this.getAttribute('data-slide'));
+                showSlide(slideIndex);
+            });
+        });
+
+        // Auto slide change
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % testimonialSlides.length;
+            showSlide(currentSlide);
+        }, 5000);
+
+        // Service Calculator
+        const serviceType = document.getElementById('service-type');
+        const complexity = document.getElementById('complexity');
+        const pages = document.getElementById('pages');
+        const estimateAmount = document.getElementById('estimate-amount');
+
+        function calculateEstimate() {
+            const serviceValue = serviceType.value;
+            const complexityValue = parseInt(complexity.value);
+            const pagesValue = parseInt(pages.value);
+            
+            let basePrice = 0;
+            let complexityMultiplier = 1;
+            
+            // Set base price based on service type
+            switch(serviceValue) {
+                case 'web':
+                    basePrice = 10000;
+                    break;
+                case 'app':
+                    basePrice = 15000;
+                    break;
+                case 'design':
+                    basePrice = 8000;
+                    break;
+                case 'consulting':
+                    basePrice = 5000;
+                    break;
+            }
+            
+            // Set complexity multiplier
+            switch(complexityValue) {
+                case 1:
+                    complexityMultiplier = 0.8;
+                    break;
+                case 2:
+                    complexityMultiplier = 1;
+                    break;
+                case 3:
+                    complexityMultiplier = 1.5;
+                    break;
+            }
+            
+            // Calculate final estimate
+            let estimate = basePrice * complexityMultiplier;
+            
+            // Adjust for pages/screens (if applicable)
+            if (serviceValue !== 'consulting') {
+                estimate += (pagesValue * 500);
+            }
+            
+            // Format and display the result
+            const minEstimate = Math.round(estimate * 0.8);
+            const maxEstimate = Math.round(estimate * 1.2);
+            
+            estimateAmount.textContent = `ZMW ${minEstimate.toLocaleString()} - ${maxEstimate.toLocaleString()}`;
+        }
+
+        // Add event listeners for calculator inputs
+        serviceType.addEventListener('change', calculateEstimate);
+        complexity.addEventListener('input', calculateEstimate);
+        pages.addEventListener('input', calculateEstimate);
+
+        // Initialize calculator
+        calculateEstimate();
+    </script>
+</body>
+  </html>
