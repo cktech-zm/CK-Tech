@@ -215,6 +215,7 @@
             padding: 20px 0;
             z-index: 1000;
             transition: var(--transition);
+            background: var(--deep-blue);
         }
 
         header.scrolled {
@@ -292,18 +293,110 @@
             color: var(--electric-purple);
         }
 
+        /* Fixed Hamburger Menu */
         .mobile-menu-btn {
             display: none;
             background: none;
             border: none;
-            color: var(--white);
-            font-size: 1.5rem;
+            width: 30px;
+            height: 30px;
+            position: relative;
             cursor: pointer;
+            z-index: 1002;
         }
 
-        header.scrolled .mobile-menu-btn {
-            color: var(--deep-blue);
+        .mobile-menu-btn span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: var(--white);
+            border-radius: 3px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: var(--transition);
         }
+
+        header.scrolled .mobile-menu-btn span {
+            background: var(--deep-blue);
+        }
+
+        .mobile-menu-btn span:nth-child(1) {
+            top: 6px;
+        }
+
+        .mobile-menu-btn span:nth-child(2) {
+            top: 13px;
+        }
+
+        .mobile-menu-btn span:nth-child(3) {
+            top: 20px;
+        }
+
+        .mobile-menu-btn.open span:nth-child(1) {
+            top: 13px;
+            transform: rotate(135deg);
+        }
+
+        .mobile-menu-btn.open span:nth-child(2) {
+            opacity: 0;
+            left: -30px;
+        }
+
+        .mobile-menu-btn.open span:nth-child(3) {
+            top: 13px;
+            transform: rotate(-135deg);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            z-index: 1001;
+            padding: 80px 30px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav ul {
+            flex-direction: column;
+            list-style: none;
+        }
+
+        .mobile-nav ul li {
+            margin: 15px 0;
+        }
+
+        .mobile-nav ul li a {
+            color: var(--deep-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(10, 36, 99, 0.1);
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 1.5rem;
+            color: var(--deep-blue);
+            cursor: pointer;
+            display: none;
+            }
 
         /* Hero Section */
         #hero {
@@ -1074,14 +1167,13 @@
     </div>
 
     <!-- Header -->
-    <header>
+       <header>
         <div class="container header-container">
             <div class="logo">
-                <img src="cktech.png" alt="CK Tech Logo">
+                <img src="https://via.placeholder.com/40" alt="CK Tech Logo">
                 <div class="logo-text">CK <span>Tech</span></div>
             </div>
             <nav>
-                <span class="close-menu"><i class="fas fa-times"></i></span>
                 <ul>
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#about">About</a></li>
@@ -1091,10 +1183,24 @@
                 </ul>
             </nav>
             <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
         </div>
     </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <span class="close-menu"><i class="fas fa-times"></i></span>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+                                     </div>
 
     <!-- Hero Section -->
     <section id="hero">
@@ -1476,24 +1582,31 @@
             }, 1000);
         });
 
-        // Mobile Menu Toggle
+         // Mobile Menu Toggle with Fixed Hamburger Animation
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const closeMenuBtn = document.querySelector('.close-menu');
-        const nav = document.querySelector('nav');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const body = document.body;
 
         mobileMenuBtn.addEventListener('click', () => {
-            nav.classList.add('active');
+            mobileMenuBtn.classList.toggle('open');
+            mobileNav.classList.toggle('active');
+            body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
         });
 
         closeMenuBtn.addEventListener('click', () => {
-            nav.classList.remove('active');
+            mobileMenuBtn.classList.remove('open');
+            mobileNav.classList.remove('active');
+            body.style.overflow = '';
         });
 
         // Close mobile menu when clicking on a link
-        const navLinks = document.querySelectorAll('nav ul li a');
+        const navLinks = document.querySelectorAll('.mobile-nav ul li a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                nav.classList.remove('active');
+                mobileMenuBtn.classList.remove('open');
+                mobileNav.classList.remove('active');
+                body.style.overflow = '';
             });
         });
 
